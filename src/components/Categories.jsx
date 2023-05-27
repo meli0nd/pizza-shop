@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react"
 
-const Categories = () => {
-  const [active, setActive] = useState(0)
-
-  const onClickCategory = (index) => setActive(index)
-
-  useEffect(() => {}, [active])
+const Categories = ({ categoryId, setCategoryId }) => {
+  useEffect(() => {}, [categoryId])
 
   const categories = [
     "Все",
@@ -22,8 +18,8 @@ const Categories = () => {
         {categories.map((item, index) => {
           return (
             <li
-              className={active === index ? "active" : ""}
-              onClick={() => onClickCategory(index)}
+              className={categoryId === index ? "active" : ""}
+              onClick={() => setCategoryId(index)}
               key={index}
             >
               {item}

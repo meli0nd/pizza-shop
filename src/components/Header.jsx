@@ -1,7 +1,8 @@
 import React from "react"
 import { Link } from "react-router-dom"
+import Search from "../common/Search/Search"
 
-const Header = ({ props }) => {
+const Header = () => {
   return (
     <div className="header">
       <div className="container">
@@ -14,9 +15,10 @@ const Header = ({ props }) => {
             </div>
           </div>
         </Link>
+        <Search />
         <Link to="/cart">
           <div className="header__cart">
-            <a href="/cart.html" className="button button--cart">
+            <div className="button button--cart">
               <span>520 ₽</span>
               <div className="button__delimiter"></div>
               <svg
@@ -49,7 +51,7 @@ const Header = ({ props }) => {
                 />
               </svg>
               <span>3</span>
-            </a>
+            </div>
           </div>
         </Link>
       </div>
