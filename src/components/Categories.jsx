@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 
-const Categories = ({ categoryId, setCategoryId }) => {
+const Categories = ({ categoryId, onClickCategory }) => {
   useEffect(() => {}, [categoryId])
 
   const categories = [
@@ -19,7 +19,7 @@ const Categories = ({ categoryId, setCategoryId }) => {
           return (
             <li
               className={categoryId === index ? "active" : ""}
-              onClick={() => setCategoryId(index)}
+              onClick={() => onClickCategory(index)}
               key={index}
             >
               {item}

@@ -1,23 +1,41 @@
-import React, { useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { setSortType, sortSelector } from "../Redux/slices/filterSlice"
 
-const Sort = ({ sortType, setSortType }) => {
+export const sortList = [
+  { name: "популярности (по убыванию)", sort: "rating" },
+  { name: "популярности (по возрастанию)", sort: "-rating" },
+  { name: "цене (сначала дороже)", sort: "price" },
+  { name: "цене (сначала дешевые)", sort: "-price" },
+  { name: "алфавиту (А-Я)", sort: "-title" },
+  { name: "алфавиту (Я-А)", sort: "title" },
+]
+
+const Sort = () => {
   const [openPopUp, setopenPopUp] = useState(false)
+  const sortType = useSelector(sortSelector)
+  const dispatch = useDispatch()
+  const sortRef = useRef()
 
-  const onClickList = (index) => {
-    setSortType(index)
+  const onClickList = (obj) => {
+    dispatch(setSortType(obj))
     setopenPopUp(false)
   }
-  const sortList = [
-    { name: "популярности (по убыванию)", sort: "rating" },
-    { name: "популярности (по возрастанию)", sort: "-rating" },
-    { name: "цене (сначала дороже)", sort: "price" },
-    { name: "цене (сначала дешевые)", sort: "-price" },
-    { name: "алфавиту (А-Я)", sort: "-title" },
-    { name: "алфавиту (Я-А)", sort: "title" },
-  ]
+
+  useEffect(() => {
+    const handleClickOutSide = (e) => {
+      const path = e.composedPath()
+      if (!path.includes(sortRef.current)) {
+        setopenPopUp(false)
+      }
+    }
+    document.body.addEventListener("click", handleClickOutSide)
+
+    return () => document.body.removeEventListener('click', handleClickOutSide)
+  }, [])
 
   return (
-    <div className="sort">
+    <div ref={sortRef} className="sort">
       <div className="sort__label">
         <svg
           width="10"

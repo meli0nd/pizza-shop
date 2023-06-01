@@ -1,9 +1,39 @@
-import React, { useContext } from "react"
+import React, {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react"
 import s from "./Search.module.scss"
-import { AppContext } from "../../App"
+import debounce from "lodash.debounce"
+import { useDispatch } from "react-redux"
+import { setSearchValue } from "../../Redux/slices/filterSlice"
 
-const Search = ({}) => {
-  const { searchValue, setSearchValue } = useContext(AppContext)
+const Search = () => {
+  const dispatch = useDispatch()
+  const [value, setValue] = useState("")
+  const searchInput = useRef()
+  const onClickClear = () => {
+    setValue("")
+    searchInput.current.focus()
+    dispatch(setSearchValue(''))
+  }
+
+
+  const updateSearchValue = useCallback(
+    debounce((str) => {
+      dispatch(setSearchValue(str))
+    }, 500),
+    []
+  )
+
+  const onChangeInput = (value) => {
+    setValue(value)
+    updateSearchValue(value)
+  }
+
+  useEffect(() => { })
+
   return (
     <div className={s.container}>
       <svg
@@ -39,15 +69,16 @@ const Search = ({}) => {
         />
       </svg>
       <input
-        value={searchValue}
-        onChange={(e) => setSearchValue(e.target.value)}
+        ref={searchInput}
+        value={value}
+        onChange={(e) => onChangeInput(e.target.value)}
         className={s.input}
         placeholder="Поиск пиццы..."
         type="text"
       />
-      {searchValue && (
+      {value && (
         <svg
-          onClick={() => setSearchValue("")}
+          onClick={onClickClear}
           className={s.close}
           height="48"
           viewBox="0 0 48 48"
