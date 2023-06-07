@@ -28,7 +28,7 @@ const pizzasSlice = createSlice({
   },
   extraReducers: {
     [fetchPizzas.pending]: (state) => {
-      state.isFetching = "loadig"
+      state.isFetching = "loading"
       state.items = []
     },
     [fetchPizzas.fulfilled]: (state, action) => {

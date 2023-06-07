@@ -1,6 +1,6 @@
-import React from "react"
+import React, { FC } from "react"
 
-const NotFoundBlock = () => {
+const NotFoundBlock: FC = () => {
   return (
     <div>
       <h1>Ничего не найдено</h1>

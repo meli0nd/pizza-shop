@@ -1,8 +1,13 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { FC, useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { setSortType, sortSelector } from "../Redux/slices/filterSlice"
 
-export const sortList = [
+type SortItem = {
+  name: string
+  sort: string
+}
+
+export const sortList: SortItem[] = [
   { name: "популярности (по убыванию)", sort: "rating" },
   { name: "популярности (по возрастанию)", sort: "-rating" },
   { name: "цене (сначала дороже)", sort: "price" },
@@ -11,19 +16,19 @@ export const sortList = [
   { name: "алфавиту (Я-А)", sort: "title" },
 ]
 
-const Sort = () => {
+const Sort: FC = () => {
   const [openPopUp, setopenPopUp] = useState(false)
   const sortType = useSelector(sortSelector)
   const dispatch = useDispatch()
-  const sortRef = useRef()
+  const sortRef = useRef<HTMLDivElement>(null)
 
-  const onClickList = (obj) => {
+  const onClickList = (obj: SortItem) => {
     dispatch(setSortType(obj))
     setopenPopUp(false)
   }
 
   useEffect(() => {
-    const handleClickOutSide = (e) => {
+    const handleClickOutSide = (e: any) => {
       const path = e.composedPath()
       if (!path.includes(sortRef.current)) {
         setopenPopUp(false)
@@ -31,7 +36,7 @@ const Sort = () => {
     }
     document.body.addEventListener("click", handleClickOutSide)
 
-    return () => document.body.removeEventListener('click', handleClickOutSide)
+    return () => document.body.removeEventListener("click", handleClickOutSide)
   }, [])
 
   return (

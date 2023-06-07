@@ -1,10 +1,22 @@
-import React, { useState } from "react"
+import React, { useState, FC } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { addProduct, cartItemByIdSelector } from "../Redux/slices/cartSlice"
+import { Link } from "react-router-dom"
 
 const typeNames = ["тонкое", "традиционное"]
 
-const PizzaItem = ({
+type PizzaItemProprs = {
+  id: string
+  imageUrl: string
+  title: string
+  types: number[]
+  sizes: number[]
+  price: number
+  category: number
+  rating: string
+}
+
+const PizzaItem: FC<PizzaItemProprs> = ({
   id,
   imageUrl,
   title,
@@ -15,7 +27,6 @@ const PizzaItem = ({
   rating,
 }) => {
   const cartItem = useSelector(cartItemByIdSelector(id))
-  const [pizzaCount, setPizzaCount] = useState(0)
   const [activeType, setActiveType] = useState(0)
   const [activeSize, setActiveSize] = useState(0)
   const dispatch = useDispatch()
@@ -24,7 +35,12 @@ const PizzaItem = ({
 
   const onClickAdd = () => {
     const item = {
-      id, title, price, imageUrl, type: typeNames[activeType], size: sizes[activeSize]
+      id,
+      title,
+      price,
+      imageUrl,
+      type: typeNames[activeType],
+      size: sizes[activeSize],
     }
     dispatch(addProduct(item))
   }
@@ -32,8 +48,10 @@ const PizzaItem = ({
   return (
     <div className="pizza-container">
       <div className="pizza-block">
-        <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
-        <h4 className="pizza-block__title">{title}</h4>
+        <Link to={`/pizza/${id}`}>
+          <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
+          <h4 className="pizza-block__title">{title}</h4>
+        </Link>
         <div className="pizza-block__selector">
           <ul>
             {types.map((type, index) => {
@@ -64,7 +82,10 @@ const PizzaItem = ({
         </div>
         <div className="pizza-block__bottom">
           <div className="pizza-block__price">от {price} руб.</div>
-          <button onClick={onClickAdd} className="button button--outline button--add">
+          <button
+            onClick={onClickAdd}
+            className="button button--outline button--add"
+          >
             <svg
               width="12"
               height="12"
@@ -77,9 +98,7 @@ const PizzaItem = ({
                 fill="white"
               />
             </svg>
-            <span >
-              Добавить
-            </span>
+            <span>Добавить</span>
             {addedCount > 0 && <i>{addedCount}</i>}
           </button>
         </div>
