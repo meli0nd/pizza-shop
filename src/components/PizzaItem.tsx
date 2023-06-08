@@ -1,11 +1,15 @@
 import React, { useState, FC } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { addProduct, cartItemByIdSelector } from "../Redux/slices/cartSlice"
+import {
+  TCartItem,
+  addProduct,
+  cartItemByIdSelector,
+} from "../Redux/slices/cartSlice"
 import { Link } from "react-router-dom"
 
 const typeNames = ["тонкое", "традиционное"]
 
-type PizzaItemProprs = {
+type TPizzaItemProprs = {
   id: string
   imageUrl: string
   title: string
@@ -16,7 +20,7 @@ type PizzaItemProprs = {
   rating: string
 }
 
-const PizzaItem: FC<PizzaItemProprs> = ({
+const PizzaItem: FC<TPizzaItemProprs> = ({
   id,
   imageUrl,
   title,
@@ -34,13 +38,14 @@ const PizzaItem: FC<PizzaItemProprs> = ({
   const addedCount = cartItem ? cartItem.count : 0
 
   const onClickAdd = () => {
-    const item = {
+    const item: TCartItem = {
       id,
       title,
       price,
       imageUrl,
-      type: typeNames[activeType],
-      size: sizes[activeSize],
+      types: typeNames[activeType],
+      sizes: sizes[activeSize],
+      count: 0,
     }
     dispatch(addProduct(item))
   }

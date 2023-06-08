@@ -8,6 +8,7 @@ const Search = () => {
   const dispatch = useDispatch()
   const [value, setValue] = useState("")
   const searchInput = useRef<HTMLInputElement>(null)
+
   const onClickClear = () => {
     setValue("")
     searchInput.current?.focus()
@@ -21,9 +22,9 @@ const Search = () => {
     []
   )
 
-  const onChangeInput = (value: string) => {
-    setValue(value)
-    updateSearchValue(value)
+  const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(event.target.value)
+    updateSearchValue(event.target.value)
   }
 
   useEffect(() => {})
@@ -65,7 +66,7 @@ const Search = () => {
       <input
         ref={searchInput}
         value={value}
-        onChange={(e) => onChangeInput(e.target.value)}
+        onChange={onChangeInput}
         className={s.input}
         placeholder="Поиск пиццы..."
         type="text"

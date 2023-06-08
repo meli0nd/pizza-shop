@@ -1,11 +1,11 @@
 import React, { useEffect, FC } from "react"
 
-type CategoriesProps = {
+type TCategoriesProps = {
   categoryId: number
-  onClickCategory: any
+  onClickCategory: (index: number) => void
 }
 
-const Categories: FC<CategoriesProps> = ({ categoryId, onClickCategory }) => {
+const Categories: FC<TCategoriesProps> = ({ categoryId, onClickCategory }) => {
   useEffect(() => {}, [categoryId])
 
   const categories = [

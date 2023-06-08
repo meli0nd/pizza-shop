@@ -14,11 +14,16 @@ import {
   setFilters,
 } from "../../Redux/slices/filterSlice"
 
-import { fetchPizzas, pizzaSelector } from "../../Redux/slices/pizzasSlice"
+import {
+  TSearchPizzaParams,
+  fetchPizzas,
+  pizzaSelector,
+} from "../../Redux/slices/pizzasSlice"
+import { useAppDispatch } from "../../Redux/store/store"
 
 const Home: FC = () => {
   const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const isSearch = useRef(false)
   const isMounted = useRef(false)
   const { categoryId, sortType, currentPage, searchValue } =
@@ -34,8 +39,13 @@ const Home: FC = () => {
     const search = searchValue ? `search=${searchValue}` : ""
 
     dispatch(
-      // @ts-ignore   //will be fixed...
-      fetchPizzas({ order, sortBy, category, search, currentPage })
+      fetchPizzas({
+        order,
+        sortBy,
+        category,
+        search,
+        currentPage: String(currentPage),
+      })
     )
   }
 
@@ -71,11 +81,21 @@ const Home: FC = () => {
 
   useEffect(() => {
     if (window.location.search) {
-      const params = qs.parse(window.location.search.substring(1))
+      const params = qs.parse(
+        window.location.search.substring(1)
+      ) as unknown as TSearchPizzaParams
 
-      const sort = sortList.find((obj) => obj.sort === params.sort)
+      const sort = sortList.find((obj) => obj.sort === params.sortBy)
 
-      dispatch(setFilters({ ...params, sort }))
+      dispatch(
+        setFilters({
+          order: params.order,
+          sortType: sort ? sort : sortList[0],
+          categoryId: Number(params.category),
+          searchValue: params.search,
+          currentPage: Number(params.currentPage),
+        })
+      )
       isSearch.current = true
     }
   }, [])

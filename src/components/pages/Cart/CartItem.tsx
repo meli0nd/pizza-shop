@@ -1,22 +1,22 @@
 import React, { FC } from "react"
 import { useDispatch } from "react-redux"
 import { addProduct, minusItem } from "../../../Redux/slices/cartSlice"
-type CartItemProps = {
+type TCartItemProps = {
   id: string
   title: string
-  type: string
+  types: string
   price: number
-  size: number
+  sizes: number
   count: number
   imageUrl: string
 }
 
-const CartItem: FC<CartItemProps> = ({
+const CartItem: FC<TCartItemProps> = ({
   id,
   title,
-  type,
+  types,
   price,
-  size,
+  sizes,
   count,
   imageUrl,
 }) => {
@@ -26,6 +26,12 @@ const CartItem: FC<CartItemProps> = ({
     dispatch(
       addProduct({
         id,
+        title,
+        types,
+        price,
+        sizes,
+        count,
+        imageUrl,
       })
     )
   }
@@ -42,7 +48,7 @@ const CartItem: FC<CartItemProps> = ({
         <h3>{title}</h3>
         <p>
           {" "}
-          {type}, {size} см.
+          {types}, {sizes} см.
         </p>
       </div>
       <div className="cart__item-count">
