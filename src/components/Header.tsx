@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef } from "react"
+import { FC, useEffect, useRef } from "react"
 import Search from "../common/Search/Search"
 import { useSelector } from "react-redux"
 import { cartSelector } from "../Redux/slices/cartSlice"

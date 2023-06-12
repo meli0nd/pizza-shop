@@ -2,6 +2,8 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 import { RootState } from "../store/store"
 import { getCartItems } from "../../utils/getCartItems"
 import { calcTotalPrice } from "../../utils/calcTotalPrice"
+import { makeOrderFunc } from "../../utils/makeOrderFunc"
+import { removeItemLS } from "../../utils/removeItemLS"
 
 interface ICartSliceState {
   items: TCartItem[]
@@ -47,9 +49,16 @@ const cartSlice = createSlice({
       }
     },
     removeProduct(state, action: PayloadAction<string>) {
-      state.items.filter((obj) => obj.id !== action.payload)
+      const result = state.items.filter((obj) => obj.id !== action.payload)
+      state.items = result
+      removeItemLS("cartItems", action.payload)
     },
     clearProducts(state) {
+      state.items = []
+      state.totalPrice = 0
+    },
+    makeOrder(state) {
+      makeOrderFunc(state.items)
       state.items = []
       state.totalPrice = 0
     },
@@ -60,7 +69,12 @@ export const cartSelector = (state: RootState) => state.cart
 export const cartItemByIdSelector = (id: string) => (state: RootState) =>
   state.cart.items.find((obj) => obj.id === id)
 
-export const { addProduct, removeProduct, clearProducts, minusItem } =
-  cartSlice.actions
+export const {
+  addProduct,
+  removeProduct,
+  clearProducts,
+  minusItem,
+  makeOrder,
+} = cartSlice.actions
 
 export default cartSlice.reducer

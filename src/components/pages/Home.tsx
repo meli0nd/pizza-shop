@@ -1,12 +1,11 @@
-import React, { useEffect, useRef, FC, useCallback } from "react"
+import { useEffect, useRef, FC, useCallback } from "react"
 import qs from "qs"
 import Categories from "../Categories"
 import Sort, { sortList } from "../Sort"
 import PizzaItem from "../PizzaItem"
 import ItemLoader from "../../common/ItemLoader"
-import Pagination from "../pagination/Pagination"
 import { useNavigate } from "react-router-dom"
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import {
   filterSelector,
   setCategoryId,
@@ -135,10 +134,6 @@ const Home: FC = () => {
           pizzaFiltered
         )}
       </div>
-      <Pagination
-        currentPage={currentPage}
-        onChangePage={(number: number) => onChangePage(number)}
-      />
     </>
   )
 }

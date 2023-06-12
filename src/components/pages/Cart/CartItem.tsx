@@ -1,6 +1,10 @@
 import React, { FC } from "react"
 import { useDispatch } from "react-redux"
-import { addProduct, minusItem } from "../../../Redux/slices/cartSlice"
+import {
+  addProduct,
+  minusItem,
+  removeProduct,
+} from "../../../Redux/slices/cartSlice"
 type TCartItemProps = {
   id: string
   title: string
@@ -37,6 +41,10 @@ const CartItem: FC<TCartItemProps> = ({
   }
   const onClickMinus = () => {
     dispatch(minusItem(id))
+  }
+
+  const removeItem = (id: string) => {
+    dispatch(removeProduct(id))
   }
 
   return (
@@ -101,7 +109,12 @@ const CartItem: FC<TCartItemProps> = ({
         <b>{price * count}</b>
       </div>
       <div className="cart__item-remove">
-        <div className="button button--outline button--circle">
+        <div
+          onClick={() => {
+            removeItem(id)
+          }}
+          className="button button--outline button--circle"
+        >
           <svg
             width="10"
             height="10"

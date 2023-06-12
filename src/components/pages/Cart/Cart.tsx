@@ -1,8 +1,12 @@
-import React, { FC } from "react"
+import { FC, useEffect } from "react"
 import { Link } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import CartItem from "./CartItem"
-import { cartSelector, clearProducts } from "../../../Redux/slices/cartSlice"
+import {
+  cartSelector,
+  clearProducts,
+  makeOrder,
+} from "../../../Redux/slices/cartSlice"
 import CartEmpty from "./CartEmpty"
 
 const Cart: FC = () => {
@@ -15,6 +19,12 @@ const Cart: FC = () => {
       dispatch(clearProducts())
     }
   }
+
+  const makeOrderFunc = (items: any) => {
+    dispatch(makeOrder(items))
+  }
+
+  useEffect(() => {}, [items, totalPrice])
 
   if (!totalPrice) {
     return <CartEmpty />
@@ -135,7 +145,12 @@ const Cart: FC = () => {
 
                 <span>Вернуться назад</span>
               </Link>
-              <div className="button pay-btn">
+              <div
+                onClick={() => {
+                  makeOrderFunc(items)
+                }}
+                className="button pay-btn"
+              >
                 <span>Оплатить сейчас</span>
               </div>
             </div>

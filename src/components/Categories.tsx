@@ -1,4 +1,4 @@
-import React, { useEffect, FC, memo } from "react"
+import { useEffect, FC, memo } from "react"
 
 type TCategoriesProps = {
   categoryId: number
