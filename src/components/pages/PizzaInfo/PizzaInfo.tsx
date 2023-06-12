@@ -32,7 +32,7 @@ const PizzaInfo: FC = () => {
     }
 
     getPizza()
-  }, [])
+  }, [id])
 
   return (
     <>

@@ -9,7 +9,6 @@ import { useSelector } from "react-redux"
 import {
   filterSelector,
   setCategoryId,
-  setCurrentPage,
   setFilters,
 } from "../../Redux/slices/filterSlice"
 
@@ -53,10 +52,6 @@ const Home: FC = () => {
   const onClickCategory = useCallback((id: number) => {
     dispatch(setCategoryId(id))
   }, [])
-
-  const onChangePage = (page: number) => {
-    dispatch(setCurrentPage(page))
-  }
 
   const pizzaFiltered = items.map((item: any, index: number) => {
     return <PizzaItem key={index} {...item} />
