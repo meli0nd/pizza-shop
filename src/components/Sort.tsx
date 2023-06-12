@@ -16,8 +16,8 @@ export const sortList: TSortItem[] = [
   { name: "популярности (по возрастанию)", sort: SortEnum.RATING_ASC },
   { name: "цене (сначала дороже)", sort: SortEnum.PRICE_DESC },
   { name: "цене (сначала дешевые)", sort: SortEnum.PRICE_ASC },
-  { name: "алфавиту (А-Я)", sort: SortEnum.TITLE_DESC },
-  { name: "алфавиту (Я-А)", sort: SortEnum.TITLE_ASC },
+  { name: "алфавиту (А-Я)", sort: SortEnum.TITLE_ASC },
+  { name: "алфавиту (Я-А)", sort: SortEnum.TITLE_DESC },
 ]
 
 const Sort: FC = memo(() => {
