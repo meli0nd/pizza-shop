@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, FC } from "react"
+import React, { useEffect, useRef, FC, useCallback } from "react"
 import qs from "qs"
 import Categories from "../Categories"
 import Sort, { sortList } from "../Sort"
@@ -51,18 +51,19 @@ const Home: FC = () => {
 
   const sort = sortType.sort
 
-  const onClickCategory = (id: number) => {
+  const onClickCategory = useCallback((id: number) => {
     dispatch(setCategoryId(id))
-  }
+  }, [])
+
   const onChangePage = (page: number) => {
     dispatch(setCurrentPage(page))
   }
 
-  const pizzaFiltered = items.map((item: any) => {
-    return <PizzaItem {...item} />
+  const pizzaFiltered = items.map((item: any, index: number) => {
+    return <PizzaItem key={index} {...item} />
   })
 
-  const skeleton = [...new Array(4)].map((item, index) => (
+  const skeleton = [...new Array(4)].map((item: any, index: number) => (
     <ItemLoader key={index} />
   ))
 
@@ -102,15 +103,12 @@ const Home: FC = () => {
 
   useEffect(() => {
     getPizzas()
-  }, [categoryId, sort, searchValue, currentPage])
+  }, [categoryId, sort, searchValue])
 
   return (
     <>
       <div className="content__top">
-        <Categories
-          categoryId={categoryId}
-          onClickCategory={(index: number) => onClickCategory(index)}
-        />
+        <Categories categoryId={categoryId} onClickCategory={onClickCategory} />
         <Sort />
       </div>
       <h2 className="content__title">🍕Все пиццы</h2>

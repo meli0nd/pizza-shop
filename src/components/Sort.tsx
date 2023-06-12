@@ -1,8 +1,7 @@
-import React, { FC, useEffect, useRef, useState } from "react"
+import React, { FC, memo, useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import {
   SortEnum,
-  TSort,
   setSortType,
   sortSelector,
 } from "../Redux/slices/filterSlice"
@@ -21,7 +20,7 @@ export const sortList: TSortItem[] = [
   { name: "алфавиту (Я-А)", sort: SortEnum.TITLE_ASC },
 ]
 
-const Sort: FC = () => {
+const Sort: FC = memo(() => {
   const [openPopUp, setopenPopUp] = useState(false)
   const sortType = useSelector(sortSelector)
   const dispatch = useDispatch()
@@ -80,6 +79,6 @@ const Sort: FC = () => {
       )}
     </div>
   )
-}
+})
 
 export default Sort
